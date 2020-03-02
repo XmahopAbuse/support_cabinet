@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sad</title>
+</head>
+<body>
+<form method="post" action="/testhttp/">
+     {% csrf_token %}
+    <input type="text" placeholder="name" id="name" name="name">
+    <input type="text" placeholder="second" id="second" name="second">
+    <input class="w-100 btn btn-primary" type="submit" value="Войти" />
+</form>
+</body>
+</html>
