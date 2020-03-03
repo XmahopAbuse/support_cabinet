@@ -4,7 +4,6 @@ from . import views
 from .views import RouterDetailView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('testhttp/',views.get_info),
     path('',views.index),
     path('router/<int:pk>/', RouterDetailView.as_view(), name='router-detail'),
