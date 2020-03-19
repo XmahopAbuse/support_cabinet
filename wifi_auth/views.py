@@ -43,9 +43,6 @@ def get_cookie(request, pk):
 def get_all_users(request):
     mysql_connect = Mysql_connect("185.41.121.156", "xmahopsc", "yvxn6akk", "radius")
     users_from_base = mysql_connect.get_users_from_base()
-    router = Router.objects.get(id=2)
-    router.available = False
-    router.save()
     return HttpResponse(users_from_base)
 
 
