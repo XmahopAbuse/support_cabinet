@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'support_cabinet.local_settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'support_cabinet.production_settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

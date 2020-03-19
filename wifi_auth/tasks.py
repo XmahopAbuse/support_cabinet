@@ -4,7 +4,7 @@ from celery.task import periodic_task
 from celery.schedules import crontab
 from .models import Router
 import os
-@periodic_task(run_every=crontab(minute='*/1*'),name='my_first_task')
+@periodic_task(run_every=crontab(minute='*/1*'),name='ping_routers')
 def ping_routers():
     routers = Router.objects.all()
     for router in routers:
