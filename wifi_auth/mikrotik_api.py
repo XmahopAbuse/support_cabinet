@@ -57,6 +57,9 @@ class Mysql_connect():
                                    "location_name": row[3]})
             return (json.dumps(users_json))
 
-
-
+# class loginLogs():
+#     def successLogin(self, ip_address):
+#         self.logs_folder = 'tail /var/log/auth-logs/' #папка с локами, конфигурируется в /etc/rsyslog.conf, tail чтобы показать конец файла
+#         self.log_file =  self.logs_folder + ip_address
+#         print
 
