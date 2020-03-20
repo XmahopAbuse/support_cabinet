@@ -71,7 +71,7 @@
                             <div class="card-body">
                                 <div class="d-inline-block">
                                     <h5 class="text-muted">Всего пользователей</h5>
-                                    <h2 class="mb-0"> 24,763</h2>
+                                    <h2 class="mb-0 count-users"></h2>
                                 </div>
                                 <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
                                     <i class="fa fa-user fa-fw fa-sm text-primary"></i>
@@ -163,20 +163,24 @@
         success: function (response) {
             response = JSON.parse(response)
             addUserInTable(response)
-
+            countUsers(response)
         }
     })
 
     function addUserInTable(list) {
     i = 0;
     while (i < list.length){
-        $('#user-table').append('<tr><td>'+(i+1)+'</td>' +
+        $('#user-table').append('<tr class="user-table-node"><td>'+(i+1)+'</td>' +
                                 '<td>' + list[i]["number"] + '</td>' +
                                 '<td>' + list[i]["password"] + '</td>' +
                                 '<td>' + list[i]["mac"] + '</td>' +
-                                '<td>' + list[i]["location_name"] + '</td>')
+                                '<td>' + list[i]["location_name"] + '</td></tr>')
         i++;
     }
+    }
+
+    function countUsers(list){
+        $('.count-users').append(list.length)
     }
     </script>
     <script>
@@ -189,6 +193,7 @@
         }
     })
     </script>
+
     {% endblock %}
 
 
