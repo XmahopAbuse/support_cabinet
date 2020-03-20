@@ -26,7 +26,8 @@ def index(request):
 
 class RouterDetailView(DetailView):
     model = Router
-
+    def get_logs(self):
+        print(router.ip_address)
 
 def get_active_users(request, pk):
     router = Router.objects.get(pk=pk)
