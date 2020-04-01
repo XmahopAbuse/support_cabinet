@@ -494,7 +494,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
     integer: /^-?\d+$/,
 
-    digits: /^\d+$/,
+    digits: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
 
     alphanum: /^\w+$/i,
 
@@ -2395,11 +2395,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   Parsley.addMessages('en', {
     defaultMessage: "This value seems to be invalid.",
     type: {
-      email: "This value should be a valid email.",
+      email: "Введите корректный email",
       url: "This value should be a valid url.",
       number: "This value should be a valid number.",
       integer: "This value should be a valid integer.",
-      digits: "This value should be digits.",
+      digits: "Введен некорретный IP адрес.",
       alphanum: "This value should be alphanumeric."
     },
     notblank: "This value should not be blank.",

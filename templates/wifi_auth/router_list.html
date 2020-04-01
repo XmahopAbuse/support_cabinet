@@ -12,8 +12,7 @@
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Главная</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Устройства</li>
+                                        <li class="breadcrumb-item"><a href="{% url 'router-list' %}" class="breadcrumb-link">Панель</a></li>
                                     </ol>
                                 </nav>
                             </div>
@@ -102,9 +101,9 @@
                                         {% if routers %}
                                         {% for router in routers %}
                                         <tr>
-                                        <td>{{ router.router_name }}</td>
+                                        <td><a href="{% url 'router-detail' router.id %}">{{ router.router_name }}</a></td>
                                         <td>{{ router.ip_address }}</td>
-                                        {% if router.available%}<td><span class="badge-dot badge-success mr-1"></span>Online</td>
+                                        {% if router.available is True %}<td><span class="badge-dot badge-success mr-1"></span>Online</td>
                                         {% else %}<td><span class="badge-dot badge-error mr-1"></span>Offline </td> {% endif %}
                                         </tr>
                                         {% endfor %}
@@ -124,7 +123,7 @@
                     <!-- all routers  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h3>Все пользоваетли</h3>
+                    <h3>Все пользователи</h3>
                         <div class="card devices">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
@@ -136,6 +135,7 @@
                                                 <th class="border-0">Пароль</th>
                                                 <th class="border-0">MAC</th>
                                                 <th class="border-0">Точка</th>
+                                                <th class="border-0">Дата выхода</th>
                                             </tr>
                                         </thead>
                                         <tbody id="user-table">
@@ -174,7 +174,8 @@
                                 '<td>' + list[i]["number"] + '</td>' +
                                 '<td>' + list[i]["password"] + '</td>' +
                                 '<td>' + list[i]["mac"] + '</td>' +
-                                '<td>' + list[i]["location_name"] + '</td></tr>')
+                                '<td>' + list[i]["location_name"] + '</td>'+
+                                '<td>' + list[i]["login_date"] + '</td></tr>')
         i++;
     }
     }
