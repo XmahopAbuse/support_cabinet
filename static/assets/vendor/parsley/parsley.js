@@ -2402,8 +2402,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       digits: "Введен некорретный IP адрес.",
       alphanum: "This value should be alphanumeric."
     },
-    notblank: "This value should not be blank.",
-    required: "This value is required.",
+    notblank: "Это поле не может быть пустым.",
+    required: "Это обязательное поле.",
     pattern: "This value seems to be invalid.",
     min: "This value should be greater than or equal to %s.",
     max: "This value should be lower than or equal to %s.",
