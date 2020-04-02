@@ -37,32 +37,37 @@
                             <div class="card">
                                 <h5 class="card-header">Добавление устройства</h5>
                                 <div class="card-body">
-                                    <form id="form" method="post" data-parsley-validate="" novalidate="">{% csrf_token %}
+                                    <form id="form" method="post" novalidate="">{% csrf_token %}
                                         <div class="form-group row">
                                             <label for="inputRouterName" class="col-3 col-lg-2 col-form-label text-right">Имя точки</label>
                                             <div class="col-9 col-lg-10">
                                                 {{form.router_name}}
-                                                <ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">{{form.router_name.errors}}</li></ul>
-
+                                                <div class="name-exist">
+                                                {{form.router_name.errors}}
+                                                    {{form.non_field_errors}}
+                                                </div>
                                             </div>
-
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputRouterIP" class="col-3 col-lg-2 col-form-label text-right">IP адрес</label>
                                             <div class="col-9 col-lg-10">
                                                 {{form.ip_address}}
+                                                <div class="name-exist">{{form.non_field_errors}}
+                                                {{form.ip_address.errors}}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputRouterName" class="col-3 col-lg-2 col-form-label text-right">Логин</label>
                                             <div class="col-9 col-lg-10">
                                                 {{form.admin_login}}
+                                                <div class="name-exist">{{form.admin_login.errors}}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputRouterName" class="col-3 col-lg-2 col-form-label text-right">Пароль</label>
                                             <div class="col-9 col-lg-10">
                                                 {{form.admin_password}}
+                                                <div class="name-exist">{{form.admin_password.errors}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 pl-0">
@@ -75,24 +80,15 @@
                     </div>
                 </div>
             </div>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-    </script>
+    <style>
+        .name-exist {
+            margin-top: 10px;
+            position: relative;
+            background-color: #f96a6a;
+            color: #FFF;
+        }
+        .name-exist li{
+            padding: 7px;
+        }
+    </style>
 {%endblock%}
