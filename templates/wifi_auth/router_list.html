@@ -1,0 +1,200 @@
+{% extends 'wifi_auth/base.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pagehader  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h3 class="mb-2">Все устройства </h3>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{% url 'router-list' %}" class="breadcrumb-link">Панель</a></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- pagehader  -->
+                <!-- ============================================================== -->
+    </ul>
+                <div class="row">
+            <!-- ============================================================== -->
+            <!-- active hotspots   -->
+            <!-- ============================================================== -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-inline-block">
+                                <h5 class="text-muted">Активных хотспотов</h5>
+                                <h2 class="mb-0">{{routers|length}}</h2>
+                            </div>
+                            <div class="float-right icon-circle-medium  icon-box-lg  bg-info-light mt-1">
+                                <i class="fa fa-eye fa-fw fa-sm text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- active hotspots   -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- balance   -->
+                <!-- ============================================================== -->
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-inline-block">
+                                <h5 class="text-muted">Баланс</h5>
+                                <h2 class="balance mb-0"></h2>
+                            </div>
+                            <div class="float-right icon-circle-medium  icon-box-lg  bg-brand-light mt-1">
+                                <i class="fa fa-money-bill-alt fa-fw fa-sm text-brand"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end balance   -->
+                <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- total followers   -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-inline-block">
+                                    <h5 class="text-muted">Всего пользователей</h5>
+                                    <h2 class="mb-0 count-users"></h2>
+                                </div>
+                                <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
+                                    <i class="fa fa-user fa-fw fa-sm text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end total followers   -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- top selling products  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h3>Устройства</h3>
+                        <div class="card devices">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead class="bg-light">
+                                            <tr class="border-0">
+                                                <th class="border-0">Название</th>
+                                                <th class="border-0">IP-адрес</th>
+                                                <th class="border-0">Состояние</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if routers %}
+                                        {% for router in routers %}
+                                        <tr>
+                                        <td><a href="{% url 'router-detail' router.id %}">{{ router.router_name }}</a></td>
+                                        <td>{{ router.ip_address }}</td>
+                                        {% if router.available is True %}<td><span class="badge-dot badge-success mr-1"></span>Online</td>
+                                        {% else %}<td><span class="badge-dot badge-error mr-1"></span>Offline </td> {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                        {% else %}
+                                        Нет роутеров
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end all users  -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- all routers  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h3>Все пользователи</h3>
+                        <div class="card devices">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="bg-light">
+                                            <tr class="border-0">
+                                                <th class="border-0">#</th>
+                                                <th class="border-0">Номер</th>
+                                                <th class="border-0">Пароль</th>
+                                                <th class="border-0">MAC</th>
+                                                <th class="border-0">Точка</th>
+                                                <th class="border-0">Дата выхода</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="user-table">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+<style>
+.devices-tab {
+    
+}
+.devices {
+    max-height: 300px;
+    overflow: auto;
+    height: 251px;
+}
+</style>
+    <script>
+        $.ajax({
+        url: "all_users/",
+        type: "GET",
+        success: function (response) {
+            response = JSON.parse(response)
+            addUserInTable(response)
+            countUsers(response)
+        }
+    })
+
+    function addUserInTable(list) {
+    i = 0;
+    while (i < list.length){
+        $('#user-table').append('<tr class="user-table-node"><td>'+(i+1)+'</td>' +
+                                '<td>' + list[i]["number"] + '</td>' +
+                                '<td>' + list[i]["password"] + '</td>' +
+                                '<td>' + list[i]["mac"] + '</td>' +
+                                '<td>' + list[i]["location_name"] + '</td>'+
+                                '<td>' + list[i]["login_date"] + '</td></tr>')
+        i++;
+    }
+    }
+
+    function countUsers(list){
+        $('.count-users').append(list.length)
+    }
+    </script>
+    <script>
+    $.ajax({
+        url: "smsru_balance/",
+        type: "GET",
+        success: function (response) {
+            response = JSON.parse(response)
+            $(".balance").append(response["balance"] + " ₽")
+        }
+    })
+    </script>
+
+    {% endblock %}
+
+

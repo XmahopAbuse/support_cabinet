@@ -1,0 +1,168 @@
+{% extends 'wifi_auth/base.html' %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pagehader  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h3 class="mb-2">{{ router.router_name }}
+                            {% if router.available is True %}
+                                <span class="badge-dot badge-success mr-1"></span>
+                            {% else %}
+                                <span class="badge-dot badge-error mr-1"></span>
+                            {%endif%}
+                            </h3>
+                            <h4>{{ router.ip_address }}</h4>
+                            <p class="pageheader-text">Lorem ipsum dolor sit ametllam fermentum ipsum eu porta consectetur adipiscing elit.Nullam vehicula nulla ut egestas rhoncus.</p>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{% url 'router-list' %}" class="breadcrumb-link">Панель</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">{{router.router_name}}</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- pagehader  -->
+                <!-- ============================================================== -->
+                <div class="row">
+
+                    <!-- ============================================================== -->
+                    <!-- all routers  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Пользователи в сети</h5>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="bg-light">
+                                            <tr class="border-0">
+                                                <th class="border-0">#</th>
+                                                <th class="border-0">Номер телефона</th>
+                                                <th class="border-0">MAC</th>
+                                                <th class="border-0">Аптайм</th>
+                                                <th class="border-0">TX</th>
+                                                <th class="border-0">RX</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-active">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end all routers  -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- cookie users  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Куки</h5>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="bg-light">
+                                            <tr class="border-0">
+                                                <th class="border-0">#</th>
+                                                <th class="border-0">Номер телефона</th>
+                                                <th class="border-0">MAC</th>
+                                                <th class="border-0">Истекает</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-cookies">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end cookie  -->
+                    <!-- ============================================================== -->
+                </div>
+            </div>
+</div>
+
+<script>
+$.ajax({
+    url: "{% url 'active_users' router.id %}",
+    type: 'GET',
+    success: function(response) {
+        activeUsers(response)
+
+    },
+    error: function(xhr) {
+    }
+});
+
+function activeUsers(response) {
+    if (typeof response != 'string') {
+        response = JSON.parse(response)
+        i = 0
+        while (i < response.length) {
+            $('#table-active').append('<tr>' +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + response[i]['user'] + '</td>' +
+                '<td>' + response[i]['mac-address'] + '</td>' +
+                '<td>' + response[i]['uptime'] + '</td>' +
+                '<td>' + response[i]['bytes-out'] + '</td>' +
+                '<td>' + response[i]['bytes-in'] + '</td>' +
+                '</tr>')
+            i++
+        }
+    }
+    else {
+        if (response.length == 2){
+            response = "Нет пользователей онлайн"
+        }
+        $('#table-active').append('<tr><td>' + response +'</td></tr>')
+    }
+}
+</script>
+<script>
+    $.ajax({
+        url: "{% url 'cookies' router.id %}",
+        type: 'GET',
+        success: function (response) {
+            cookiesUsers(response)
+        }
+    })
+
+function cookiesUsers(response) {
+    if (typeof response != 'string' || (response.length = 2)) {
+        response = JSON.parse(response)
+        i = 0
+        while (i < response.length) {
+            $('#table-cookies').append('<tr>' +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + response[i]['user'] + '</td>' +
+                '<td>' + response[i]['mac-address'] + '</td>' +
+                '<td>' + response[i]['expires-in'] + '</td>' +
+                '</tr>')
+            i++
+        }
+    }
+    else {
+        console.log(response.length)
+        $('#table-cookies').append("Неправильный логин или пароль")
+    }
+}
+</script>
+{% endblock %}
+
+
+{#        $('#table-active').append('<tr>' +#}
+{#                            '<td>'+ (i+1) +'</td>' +#}
+{#                            '<td>' + response[i]['user'] + '</td'>+#}
+{#                            '</tr>')#}
