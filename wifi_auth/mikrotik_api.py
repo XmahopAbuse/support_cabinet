@@ -3,7 +3,7 @@ import json
 from hurry.filesize import size  # conver bytes into mb
 import os
 import pymysql
-
+from datetime import datetime
 
 class RouterOSData:
 
@@ -46,15 +46,17 @@ class Mysql_connect():
         with self.con:
             cur = self.con.cursor()
             cur.execute(
-                'SELECT username,value,mac,location_name FROM radcheck ORDER BY `id` DESC limit 3')
+                'SELECT username,value,mac,location_name,login_date FROM radcheck ORDER BY `id`')
             rows = cur.fetchall()
             users_json = []
             for row in rows:
                 print(row)
+                date = row[4].strftime("%d-%m-%Y")
                 users_json.append({"number": row[0],
                                    "password": row[1],
                                    "mac": row[2],
-                                   "location_name": row[3]})
+                                   "location_name": row[3],
+                                   "login_date": date})
             return (json.dumps(users_json))
 
 # class loginLogs():
