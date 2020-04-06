@@ -20,7 +20,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('wifi_auth/',include('wifi_auth.urls'))
+    path('wifi_auth/',include('wifi_auth.urls')),
+    path('dhcp_info/',include('dhcp_info.urls')),
+    path('account/',include('account.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
