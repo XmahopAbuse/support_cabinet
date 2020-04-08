@@ -1,0 +1,28 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import  render
+from django.contrib.auth import authenticate, login
+from .forms import LoginForm
+
+def user_login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username=cd['username'], # authenticate compare data with database, return User object if ok
+                                password=cd['password'])
+
+
+        if user is not None:
+            if user.is_active:
+                login(request,user) # saving user in session
+                return HttpResponse("Успешная автризация")
+            else:
+                return HttpResponse("Пользователь неактивен")
+        else:
+            return HttpResponse("Неверный логин и/или пароль")
+    else:
+        form = LoginForm()
+
+    return render(request,'account/login.html', {'form':form})
