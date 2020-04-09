@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import NewClient
+from .models import NewClient, District
 from django.db import models
+
+@admin.register(District)
+class DistrictAdmin(admin.ModelAdmin):
+    fields = ('name',)
 
 @admin.register(NewClient)
 class NewClientAdmin(admin.ModelAdmin):
@@ -8,16 +12,16 @@ class NewClientAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('city', 'name', 'phone','message','manager','status'),
+            'fields': ('city', 'name', 'phone','message','manager','status','ticket_from','district','comment'),
         }),
-        ('Advanced options', {
+        ('dont change it', {
             'classes': ('collapse',),
-            'fields': ('is_send',),
+            'fields': ('is_send','message_id','reply_id'),
         }),
     )
 
 
-    list_display = ('id','name', 'phone', 'manager','status')
+    list_display = ('id','name','city','phone', 'status', 'manager','ticket_from','district','comment','created')
     list_filter = ('city','status')
     search_fields = ['name']
     view_on_site = False
