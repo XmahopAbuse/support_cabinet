@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
+from wifi_auth import views as wifi_auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('wifi_auth/',include('wifi_auth.urls')),
     path('dhcp_info/',include('dhcp_info.urls')),
     path('account/',include('account.urls')),
+    path('clients/',include('clients.urls')),
+    path('',wifi_auth_views.index)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

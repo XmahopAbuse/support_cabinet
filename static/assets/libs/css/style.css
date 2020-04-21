@@ -1219,6 +1219,18 @@ Legends
 /* -----------------------
 Left Navigation Sidebar
 ------------------------- */
+.username {
+    color: #edeeff70;
+}
+
+.nav-user-profile {
+    text-transform: none !important;
+    color: #7171a6 !important;
+    align-content: center !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 400 !important;
+    text-align: center;
+}
 
 .nav-left-sidebar {
     position: fixed;
@@ -4162,7 +4174,9 @@ tr.group:hover {
 /*-----------------------
 6.3 Login
 -------------------------*/
-
+.logo-img {
+    width: 250px;
+}
 
 /*-----------------------
 6.4 Sign up Page

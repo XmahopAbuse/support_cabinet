@@ -1,4 +1,4 @@
-{% extends 'wifi_auth/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
 <div class="dashboard-wrapper">
@@ -8,16 +8,36 @@
                 <!-- ============================================================== -->
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-header">
-                            <h3 class="mb-2">{{ router.router_name }}
+                        <span class="page-header">
+                            <form id="edit_router" method="post" action="{% url 'edit_router' pk=router.pk %}">
+                            {%csrf_token%}
+                            <input class="router_name" name="router_name" placeholder="Название" type="text" value="{{router.router_name}}">
+                            <input class="router_ip_address" name = "ip_address" placeholder="IP" type="text" value="{{router.ip_address}}">
+                            <input name= "admin_login" placeholder="Логин" type="text" value="{{router.admin_login}}">
+                            <input name= "admin_password" placeholder="Пароль" type="text" value="{{router.admin_password}}">
+                            <button type="submit" class="router_ok_changes" action=""><i class="fas fa-check"></i></button>
+                            </form>
+                            <div class="router-info">
+                            <h3 class="router-credentials mt-2 mb-2">
+                                {{ router.router_name }}</h3>
                             {% if router.available is True %}
-                                <span class="badge-dot badge-success mr-1"></span>
+                                <span class="router-credentials badge-dot badge-success mr-1"></span>
                             {% else %}
-                                <span class="badge-dot badge-error mr-1"></span>
+                                <span class="router-credentials badge-dot badge-error mr-1"></span>
                             {%endif%}
-                            </h3>
-                            <h4>{{ router.ip_address }}</h4>
-                            <p class="pageheader-text">Lorem ipsum dolor sit ametllam fermentum ipsum eu porta consectetur adipiscing elit.Nullam vehicula nulla ut egestas rhoncus.</p>
+                                    <ul class="modify-router">
+                                        <li>
+                                            <button id="edit-router-icon" href=""><i class="fas fa-pencil-alt"></i></button>
+                                        </li>
+                                        <li>
+                                            <form action="{% url 'delete_router' pk=router.pk%}" method="post">
+                                                {%csrf_token%}
+                                                <button type="submit"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                            <h4 class="router-credentials">{{ router.ip_address }}</h4>
+                            </div>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -28,11 +48,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 <!-- ============================================================== -->
                 <!-- pagehader  -->
                 <!-- ============================================================== -->
-                <div class="row">
+                <div class="row mt-5">
 
                     <!-- ============================================================== -->
                     <!-- all routers  -->
@@ -159,11 +178,102 @@ function cookiesUsers(response) {
         $('#table-cookies').append("Неправильный логин или пароль")
     }
 }
+
+</script>
+
+<script>
+    // $('#edit-router-icon').click(function (e) {
+    //     e.preventDefault()
+    //     // $('.router-info').html('<form id="edit_router" method="post" action="' +"{% url 'edit_router' pk=router.pk %}" + '">' +
+    //     //                         '{%csrf_token%}'+
+    //     //                         '<input class="router_name" name="router_name" placeholder="Название" type="text" value="{{router.router_name}}">'+
+    //     //                         '<input class="router_ip_address" name = "ip_address" placeholder="IP" type="text" value="{{router.ip_address}}">' +
+    //     //                         '<input name= "admin_login" placeholder="Логин" type="text" value="{{router.admin_login}}">' +
+    //     //                         '<input name= "admin_password" placeholder="Пароль" type="text" value="{{router.admin_password}}">' +
+    //     //                         '<button type="submit" class="router_ok_changes"><i class="fas fa-check"></i></button>' +
+    //     //                         '</form>')})
+    //     $("#edit_router").css("display", "inline");
+    // })
+
+
+</script>
+
+<style>
+    #edit_router {
+    }
+    h3 {
+        display: inline-block;
+    }
+    .modify-router {
+        font-size: 15px;
+        color: #7a80b4;
+        display: inline;
+        position: absolute;
+        margin-top: 10px;
+    }
+    .modify-router button {
+        background-color: rgba(0,0,0,0);
+        border:none;
+        color: #7a80b4;
+    }
+    .modify-router li {
+        display: inline-block;
+        list-style-type: none;
+    }
+    .fa-trash:hover,
+    .fa-pencil-alt:hover,
+    .fa-check{
+        color: #3d405c;
+        cursor: pointer;
+    }
+    #edit_router {
+        transition: transform .4s;
+    }
+
+    #edit_router input {
+        background-color: rgba(0,0,0,0);
+        border: none;
+        color: #3d405c;
+        font-size: 20px;
+        width: 150px;
+        background-color: rgba(255,255,255,.5);
+    }
+    #edit_router  button {
+        background-color: rgba(0,0,0,0);
+        border: none;
+    }
+    #edit_router form input.router_name{
+        margin: 0 0 !important;
+    }
+
+    .hide {
+        visibility: hidden;
+    }
+    #edit_router {
+        visibility: hidden;
+        transition: transform .4s;
+        width: 644px;
+    }
+.move{
+    transform: translateY(35px);
+    visibility: visible !important;
+}
+
+.moveModifiers{
+    transform: translateX(590px);
+}
+</style>
+<script>
+    document.querySelector("#edit-router-icon").onclick = function(){
+    var r = document.querySelector("#edit_router").classList.toggle("move");
+    this.html = r ? '<i class="fas fa-pencil-alt">' : '<i class="fas fa-pencil-alt">';
+    var routerInfo = document.getElementsByClassName("router-credentials");
+    for (var i = 0; i < routerInfo.length; i++){
+        routerInfo[i].classList.toggle("hide");
+    }
+    document.querySelector(".modify-router").classList.toggle("moveModifiers");
+}
+
 </script>
 {% endblock %}
 
-
-{#        $('#table-active').append('<tr>' +#}
-{#                            '<td>'+ (i+1) +'</td>' +#}
-{#                            '<td>' + response[i]['user'] + '</td'>+#}
-{#                            '</tr>')#}

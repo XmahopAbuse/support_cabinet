@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import View, DetailView
 from routeros_api.exceptions import RouterOsApiCommunicationError
 from .models import Router
@@ -7,7 +7,7 @@ from .mikrotik_api import RouterOSData, Mysql_connect
 import requests
 from .forms import RouterForm
 import routeros_api
-from django.views import generic
+from django.contrib.auth.decorators import login_required
 import json
 
 
@@ -18,6 +18,8 @@ def get_info(request):
     return HttpResponse('your name is {} and your second is {}'.format(name, second))
 
 
+
+@login_required()
 def index(request):
     routers = Router.objects.all()
     context = {'routers': routers, }
@@ -66,3 +68,24 @@ def add_router(request):
     else:
         form = RouterForm()
     return render (request,'wifi_auth/add_router.html',{'form':form})
+
+def edit_router(request,pk):
+    router = Router.objects.get(pk=pk)
+    form = RouterForm(request.POST,instance=router)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return JsonResponse({"status":"ok",'message':"successfully changed"})
+        else:
+            return JsonResponse({'status':'error',
+                                'errors':  form.errors
+                                 })
+    return redirect('router-list')
+def delete_router(request,pk):
+    router = Router.objects.get(pk=pk)
+    if request.method=='POST':
+        router.delete()
+        return JsonResponse({'status':'ok',
+                         'message':'router was deleted'})
+    return redirect('router-list')
+

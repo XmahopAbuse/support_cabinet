@@ -11,5 +11,7 @@ urlpatterns = [
     path('router/<int:pk>/cookie', views.get_cookie, name="cookies"),
     path('all_users/',views.get_all_users, name="all_users"),
     path('smsru_balance/',views.get_smsru_balance),
-    path('add/', views.add_router, name="add_router")
+    path('add/', views.add_router, name="add_router"),
+    path('router/<int:pk>/edit/', views.edit_router,name="edit_router"),
+    path('router/<int:pk>/delete/',views.delete_router,name="delete_router")
 ]

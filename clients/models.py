@@ -38,7 +38,11 @@ class NewClient(models.Model):
     message_id = models.IntegerField("message id", null=True,default=None, blank=True)
     reply_id = models.IntegerField("reply_id", null=True,default=None, blank=True)
     comment = models.TextField("Комментарий", max_length=255,null=True, blank=True)
-    ticket_from =  models.CharField("Заявка",max_length=10, choices=FROM,null=True, blank=True)
+    ticket_from = models.CharField("Заявка",max_length=10, choices=FROM,null=True, blank=True)
     district = models.ForeignKey(District,on_delete=models.CASCADE,blank=True,default=None,null=True,verbose_name="Район")
-    created =  models.DateTimeField("Создана",auto_now_add=True,null=True, blank=True)
+    created = models.DateTimeField("Создана",auto_now_add=True,null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Клиент"
+        verbose_name_plural = "Клиенты"
 

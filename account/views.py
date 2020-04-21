@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import  render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from .forms import LoginForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+
 
 def user_login(request):
     if request.method == "POST":
@@ -26,3 +29,21 @@ def user_login(request):
         form = LoginForm()
 
     return render(request,'account/login.html', {'form':form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return JsonResponse({'status':'Ok',
+                                'message':'Пароль изменен'})
+        else:
+            return JsonResponse({'status':'Error',
+                                'message':'Произошла ошибка, проверьте правильность данных и попробуйте снова'})
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+        args = {'form': form}
